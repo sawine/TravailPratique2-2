@@ -1,16 +1,25 @@
 package TravailPratique2;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.text.ParseException;
 
 public class Vol {
 	
-	int numVol;
-	String lieuDepart;
-	String lieuArrive;
-	Date dateDepart;
-	Date dateArrive;
+	int numVol = 666;
+	String lieuDepart = "YUL";
+	String lieuArrive = "LOL";
+        SimpleDateFormat date = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        Date dateDepart = simpleDateFormat.parse("17/04/2012 15:30:00");
+        SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
+        
+        
 	private Passager[] passagers;
         private int nbPassagers;
+        
+
         
         public Vol (int taille){
             this.passagers = new Passager[taille];
@@ -20,7 +29,7 @@ public class Vol {
         public boolean ajouter(Passager passager)
         {
         if (nbPassagers == passagers.length){agrandir();}
-         Passager temp;
+       //  Passager temp;
            
         for (int i = nbPassagers - 1; i > 0; i--)
             for (int j = 0; j < i; j++)
@@ -34,7 +43,7 @@ public class Vol {
             { 
                 passagers[j + 1] = passagers[j];
                 passagers[j] = passager;
-                // ou passagers[j+1] = passager; ???
+                // passagers[j + 1] = passager;
                 //push (or unshift?) at the bottom of the array
             }
             
@@ -57,9 +66,9 @@ public class Vol {
             
         public String toString()
     {
-        String s = "";
+        String s = "dateDepart" + " " + dateArrive + "";
 
-        for (int i = 0; i < nbPassagers; i++)
+        for (int i = nbPassagers - 1; i >=0; i--)
             s += "\n" + passagers[i];
 
         return s;
