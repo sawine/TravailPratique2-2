@@ -22,6 +22,11 @@ public class Passager {
             return classe;
         }
         
+        public String getNumBill()
+        {
+            return numBill;
+        }
+        
         public String toString()
         {
             return this.prenom + " " + this.nom + " " +this.numPass + " " + this.numBill + " " + this.classe;
