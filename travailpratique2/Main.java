@@ -8,13 +8,13 @@ public class Main {
         System.out.println("|   Par: Steve O'Bomsawin & Mathieu Gagnon      |");
         System.out.println("+-----------------------------------------------+\n");
 
-        Vol vol = new Vol(10);
-        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
-        vol.ajouter(new Passager("Desbananes", "Yvan", 1337, "23A", true));
-        vol.ajouter(new Passager("Desbalounes", "Yvan", 1337, "23A", true));
-        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
-        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
-        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
+       Vol vol = new Vol(10);
+        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", false));
+        vol.ajouter(new Passager("Desbananes", "Yvan", 1338, "10C", true));
+        vol.ajouter(new Passager("Desbalounes", "Yvan", 1339, "20B", true));
+        vol.ajouter(new Passager("Charest", "Jean", 133713, "5A", true));
+        vol.ajouter(new Passager("Harper", "Stefen", 13371313, "3F", true));
+        vol.ajouter(new Passager("Smith", "Joe", 133700, "25B", true));
 
     int choix = -1;
 
@@ -23,7 +23,7 @@ public class Main {
         
         
         System.out.println("+----------------------------------==[Info du vol]==--------------------------------+");
-                                                           
+                                    System.out.println(vol.toString());
         System.out.println("+-----------------------------------------------------------------------------------+");
         
         System.out.println("+-------------------------------------==[MENU]==------------------------------------+");
