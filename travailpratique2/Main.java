@@ -10,6 +10,11 @@ public class Main {
 
         Vol vol = new Vol(10);
         vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
+        vol.ajouter(new Passager("Desbananes", "Yvan", 1337, "23A", true));
+        vol.ajouter(new Passager("Desbalounes", "Yvan", 1337, "23A", true));
+        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
+        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
+        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", true));
 
     int choix = -1;
 
