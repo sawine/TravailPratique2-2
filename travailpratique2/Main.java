@@ -8,14 +8,23 @@ public class Main {
         System.out.println("|   Par: Steve O'Bomsawin & Mathieu Gagnon      |");
         System.out.println("+-----------------------------------------------+\n");
 
-       Vol vol = new Vol(10);
-        vol.ajouter(new Passager("Smith", "Joe", 1337, "23A", false));
-        vol.ajouter(new Passager("Desbananes", "Yvan", 1338, "10C", true));
-        vol.ajouter(new Passager("Desbalounes", "Yvan", 1339, "20B", true));
-        vol.ajouter(new Passager("Charest", "Jean", 133713, "5A", true));
+       Vol vol = new Vol(120);
+        vol.ajouter(new Passager("Smith", "Joe", 13372341, "23A", false));
+        vol.ajouter(new Passager("Desbananes", "Yvan", 13382314, "10C", true));
+        vol.ajouter(new Passager("Desbalounes", "Yvan", 13393476, "4B", true));
+        vol.ajouter(new Passager("Charest", "Jean", 13371375, "5A", true));
         vol.ajouter(new Passager("Harper", "Stefen", 13371313, "3F", true));
-        vol.ajouter(new Passager("Smith", "Joe", 133700, "25B", true));
-
+        vol.ajouter(new Passager("Wing", "Boe", 13370025, "25B", false));
+        vol.ajouter(new Passager("Wing", "Tow", 15451337, "25A", false));
+        vol.ajouter(new Passager("Despoires", "Yvan", 87951338, "9C", true));
+        vol.ajouter(new Passager("Rienpentoute", "Yvan", 36413139, "21B", false));
+        vol.ajouter(new Passager("Mainmoites", "Yale", 13223713, "2A", true));
+        vol.ajouter(new Passager("Dlayeul", "Ypu", 13399913, "3F", true));
+        vol.ajouter(new Passager("Aupier", "Gemal", 13213700, "29F", false));
+        vol.ajouter(new Passager("Dider", "Gepu", 85463284, "18A", false));
+        vol.ajouter(new Passager("Maipartou", "Yan", 63278591, "6F", true));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 17685179, "27E", false));
+        
     int choix = -1;
 
     do {
@@ -23,7 +32,7 @@ public class Main {
         
         
         System.out.println("+----------------------------------==[Info du vol]==--------------------------------+");
-                                    System.out.println(vol.toString());
+                                    System.out.println(vol.toString()); //display nothing... ?
         System.out.println("+-----------------------------------------------------------------------------------+");
         
         System.out.println("+-------------------------------------==[MENU]==------------------------------------+");
