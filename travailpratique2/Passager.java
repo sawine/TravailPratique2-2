@@ -16,7 +16,7 @@ public class Passager {
             this.numBill = numBill;
             this.affaire = affaire;
         }
-	
+
         public boolean isAffaire()
         {
             return affaire;
