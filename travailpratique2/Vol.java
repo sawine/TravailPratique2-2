@@ -26,22 +26,40 @@ public class Vol {
             this.nbPassagers = 0;
         }
         
-        public boolean ajouter(Passager passager)        
+              public boolean ajouter(Passager passager)        
         {
-            
-            if(nbPassagers==0)passagers[nbPassagers++]= passager; //is liste vide           
+            int i;;
+            if(nbPassagers == 0) passagers[nbPassagers++]= passager; //is liste vide           
             else{
-                if (nbPassagers == passagers.length)agrandir(); // si pleine               
+                if ( == passagers.length)agrandir(); // si pleine               
                                   
             //on cherche s'il n'existe pas un autre passeport du meme #            
+               for(i=0;i<nbPassagers;i++)
                 if(passagers[i].getPass() == passager.getPass())
                     return false;
+               
+               //reset passager
+               i=nbPassagers-1;
                 
-            //inséré un passager Classe affaire
-            for(i=nbPassagers-1;i>=0;i--)
+                
+            //tripar classe
+            //si membre de classe affaire, décale tout les autres sans comparer # de rangé             
+            if( passager.isAffaire()) {
+                
+                 while(passagers[i].isAffaire()){
+                     passagers[i+1] = passagers[i];
+                     i--;
+                }
+                //puis
+                
+             }    //tri par rangé
+            for(   ;i>=0;i--)  // i already set
             {
-                if(passager.getRange()< passagers[i].getRange())
-                    passagers[i+1] = passagers[i];
+                
+                    //si cétait '<=' le nouveau passager passerait devant
+                    //cela ne doit pas être le cas
+                if(passager.getRange() < passagers[i].getRange())
+                   passagers[i+1] = passagers[i];
                 else
                     break;
             }
@@ -51,6 +69,9 @@ public class Vol {
             }
             return true;
          }
+         
+         
+         
         
         
             private void agrandir()
@@ -73,5 +94,24 @@ public class Vol {
 
         return s;
     }        
+    private Passager[] shellSort(String sortBy){
+    long toSortList[] = new long[nbPassagers];
+    
+    if(sortBy.equals("name")) 
+        for(i=0;i<nbPassagers;i++)
+            toSortList[i] = passagers[i.]
+    else if (sortBy.equals("bill"))
+    else if (sortBy.equals("seat")(
+    int prsIn, prsOut;
+    Passager tmp;
+    int h=1;
+    while(h <= nbPassagers/3) h= h*3 +1; //(1,4,13,40,121)
+    while (h>0){
+        while(inner >h-1 && )
+    }
+   
+
+    
+}}
             
 }
