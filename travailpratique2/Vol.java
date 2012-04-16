@@ -10,24 +10,25 @@ public class Vol {
 	int numVol = 666;
 	String lieuDepart = "YUL";
 	String lieuArrive = "LOL";
-        SimpleDateFormat date = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-        Date dateDepart = simpleDateFormat.parse("17/04/2012 15:30:00");
-        SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
         
+        //SimpleDateFormat date = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+        Date aujourdhui = new Date();
+        SimpleDateFormat dateDepart = new SimpleDateFormat("17/04/2012 15:30:00");
+        SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
         
 	private Passager[] passagers;
         private int nbPassagers;
         
 
         
-        public Vol (int taille){
+         public Vol (int taille){
             this.passagers = new Passager[taille];
             this.nbPassagers = 0;
         }
         
         public boolean ajouter(Passager passager)        
         {
+            
             if(nbPassagers==0)passagers[nbPassagers++]= passager; //is liste vide           
             else{
                 if (nbPassagers == passagers.length)agrandir(); // si pleine               
@@ -65,7 +66,7 @@ public class Vol {
             
         public String toString()
     {
-        String s = "dateDepart" + " " + dateArrive + "";
+        String s = "Numéro du vol: " + numVol + "\nLieu de départ: " + lieuDepart + "\nLieu d'arrivée: " + lieuArrive + "\nDate de départ: " + dateDepart.format(aujourdhui) + "\nDate d'arrivée: " + dateArrive.format(aujourdhui) + "\n\nListe des passagers:";
 
         for (int i = nbPassagers - 1; i >=0; i--)
             s += "\n" + passagers[i];
