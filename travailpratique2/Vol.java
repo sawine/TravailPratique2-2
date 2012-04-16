@@ -26,31 +26,30 @@ public class Vol {
             this.nbPassagers = 0;
         }
         
-        public boolean ajouter(Passager passager)
+        public boolean ajouter(Passager passager)        
         {
-        if (nbPassagers == passagers.length){agrandir();}
-       //  Passager temp;
-           
-        for (int i = nbPassagers - 1; i > 0; i--)
-            for (int j = 0; j < i; j++)
-		if (passagers[j].getClasse() == true)
-		{ 
-                    passagers[nbPassagers++] = passager;
-                    //push at the top of the array
-		}
-            
-                else 
-            { 
-                passagers[j + 1] = passagers[j];
-                passagers[j] = passager;
-                // passagers[j + 1] = passager;
-                //push (or unshift?) at the bottom of the array
+            if(nbPassagers==0)passagers[nbPassagers++]= passager; //is liste vide           
+            else{
+                if (nbPassagers == passagers.length)agrandir(); // si pleine               
+                                  
+            //on cherche s'il n'existe pas un autre passeport du meme #            
+                if(passagers[i].getPass() == passager.getPass())
+                    return false;
+                
+            //inséré un passager Classe affaire
+            for(i=nbPassagers-1;i>=0;i--)
+            {
+                if(passager.getRange()< passagers[i].getRange())
+                    passagers[i+1] = passagers[i];
+                else
+                    break;
             }
+            passagers[i+1]= passager;
+            nbPassagers++;
             
-            //getNumBill , bubble sort ?
-            
-        return false;
-    }
+            }
+            return true;
+         }
         
         
             private void agrandir()
