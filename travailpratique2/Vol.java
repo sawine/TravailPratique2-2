@@ -72,8 +72,7 @@ public class Vol {
             nbPassagers++;
 
         }
-        return true;
-    }   return true;
+     return true;
     }
 
     private void agrandir() {
