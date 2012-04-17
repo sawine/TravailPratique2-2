@@ -19,10 +19,10 @@ public class Vol {
 
     public Vol(int taille) {
         this.passagers = new Passager[taille];
-        this.nbPassagers = 0;
+        this.nbPassagers = 0;        
     }
-
-    public boolean ajouter(Passager passager) {
+    
+ public boolean ajouter(Passager passager) {
         int i;
         if (nbPassagers == 0) {
             passagers[nbPassagers++] = passager; //is liste vide           
@@ -36,38 +36,44 @@ public class Vol {
                     return false;
                 }
             }
-
-            //reset passager
-            i = nbPassagers - 1;
-
-
-            //tripar classe
-            //si membre de classe affaire, décale tout les autres sans comparer # de rangé             
-            if (passager.isAffaire()) {
-
-                while (passagers[i].isAffaire()) {
-                    passagers[i + 1] = passagers[i];
-                    i--;
-                }
-                //puis
-
-            }    //tri par rangé
-            for (; i >= 0; i--) // i already set
+           
+            //tri insersion
+            //La classe affaire et économique on étés séparer pour  simplifié
+            for (i= nbPassagers-1; i >= 0; i--) // i already set
             {
-
-                //si cétait '<=' le nouveau passager passerait devant
-                //cela ne doit pas être le cas
-                if (passager.getRange() < passagers[i].getRange()) {
-                    passagers[i + 1] = passagers[i];
-                } else {
-                    break;
+                //Classe affaire
+                //Conditions :  tasse tout les classe économiques sans exeption
+                //      tasse tout les plus petit de classe affaire
+              
+                if(passager.isAffaire()){
+                    if ( !passagers[i].isAffaire() || passager.getRange() > passagers[i].getRange() )  
+                        passagers[i + 1] = passagers[i];
+                    else {
+                     //  System.out.println("Classe affaire " + passager+"\n");
+                        break;
+                    }                        
                 }
+                
+                //classe économique 
+                //condition : ne dois pas tassé un 1ere classe,
+                //      doit être plus grand que sont suivant
+                
+                else{
+                    if ((!passagers[i].isAffaire()) && (passager.getRange() > passagers[i].getRange()) )
+                        passagers[i + 1] = passagers[i];                        
+                    else{                            
+                    //    System.out.println("Classe économique : + passager "+ "\n" );
+                        break;
+                    }
+                }    
             }
-            passagers[i + 1] = passager;
+            
+            passagers[i+1] = passager;
             nbPassagers++;
 
         }
         return true;
+    }   return true;
     }
 
     private void agrandir() {
