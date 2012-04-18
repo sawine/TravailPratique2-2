@@ -59,7 +59,7 @@ public class Vol {
                 //      Priorité sur un siège plus petit de la classe économique.
                 
                 else{
-                    if (/*(!passagers[i].isAffaire()) &&*/ (passager.getRange() > passagers[i].getRange()) )
+                    if ((!passagers[i].isAffaire()) && (passager.getRange() > passagers[i].getRange()) )
                         passagers[i + 1] = passagers[i];                        
                     else{                            
                     //    System.out.println("Classe économique : + passager "+ "\n" );
