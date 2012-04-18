@@ -18,7 +18,21 @@ public class Passager {
             this.numBill = numBill;
             this.affaire = affaire;
         }
-
+	/* plan pour vérifier numBill 
+	créé variable numSiege et numRange
+	créé fonction checkNumBill() qui retourne un bool et qui prend une string en paramêtre
+	utilise le code de getRange et getSiegeW
+	modifie ses deux fonction la aussi pour quil retourne les valeur des 2 variable créé
+	
+	créé une fonction private setNumBill qui va faire un peu la meme chose que checkNumBill
+	 sauf que celle-ci va être utilise à l'intérieur du constructeur pour setté les valeur de
+	 numSiege et numRange
+	 
+	
+	
+	
+	
+	*/
         public boolean isAffaire()
         {
             return affaire;
@@ -67,3 +81,4 @@ public class Passager {
         }
         
 }
+
