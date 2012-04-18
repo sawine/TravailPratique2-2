@@ -42,8 +42,8 @@ public class Vol {
             for (i= nbPassagers-1; i >= 0; i--) // i already set
             {
                 //Classe affaire
-                //Conditions :  tasse tout les classe économiques sans exeption
-                //      tasse tout les plus petit de classe affaire
+                //Conditions :  Priorité sur la classe économiques sans exeption
+                //      Priorité sur un siège plus petit.
               
                 if(passager.isAffaire()){
                     if ( !passagers[i].isAffaire() || passager.getRange() > passagers[i].getRange() )  
@@ -55,8 +55,8 @@ public class Vol {
                 }
                 
                 //classe économique 
-                //condition : ne dois pas tassé un 1ere classe,
-                //      doit être plus grand que sont suivant
+                //condition : ne dois pas déclasser un 1ere classe,
+                //      Priorité sur un siège plus petit de la classe économique.
                 
                 else{
                     if ((!passagers[i].isAffaire()) && (passager.getRange() > passagers[i].getRange()) )
@@ -86,7 +86,9 @@ public class Vol {
     }
 
     public String toString() {
-        String s = "Numéro du vol: " + numVol + "\nLieu de départ: " + lieuDepart + "\nLieu d'arrivée: " + lieuArrive + "\nDate de départ: " + dateDepart.format(aujourdhui) + "\nDate d'arrivée: " + dateArrive.format(aujourdhui) + "\n\nListe des passagers:";
+        String s = "Numéro du vol: " + numVol + "\nLieu de départ: " + lieuDepart + 
+                "\nLieu d'arrivée: " + lieuArrive + "\nDate de départ: " + dateDepart.format(aujourdhui) + 
+                "\nDate d'arrivée: " + dateArrive.format(aujourdhui) + "\n\nListe des passagers:";
 
         for (int i = nbPassagers - 1; i >= 0; i--) {
             s += "\n" + passagers[i];
@@ -104,25 +106,8 @@ public class Vol {
 
         return s;
     }    
-    
-/*
-    private Passager[] shellSort(String sortBy) {
-        long toSortList[] = new long[nbPassagers];
 
-        if (sortBy.equals("name")) {
-            for (i = 0; i < nbPassagers; i++) {
-                toSortList[i] = passagers[i];
-            }
-        } else if (sortBy.equals("bill")) {
-            
-        } else if (sortBy.equals("seat")
-     {
-            int 
-        }
-        prsIn, prsOut;
-        
-        */
-    
+
     /* Tri shell */
     public void trierParNom(Passagers[] passagers){
     Passager temp;
