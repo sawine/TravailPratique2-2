@@ -72,7 +72,7 @@ static int numPass = 0;
                     System.out.println("Veuillez entrer le numéro de billet :");
                         numBill = getString();
 
-                    } while ((!numBillCheck() == true) && (vol.rechercher2(numBill)) == true);
+                    } while ((!numBillCheck() == true) || (vol.rechercher2(numBill.toUpperCase())) == true);
                     
                     int numClasse = 0;
                     boolean classe = false;
@@ -107,7 +107,7 @@ static int numPass = 0;
                     break;
 
                 case 4: {
-                System.out.println(vol.fillPassagersTriPlusMoins());
+                System.out.println(vol.fillrapide());
                     break;
                 }
 
