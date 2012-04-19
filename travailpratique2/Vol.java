@@ -1,139 +1,154 @@
 package TravailPratique2;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.text.ParseException;
+import java.io.*;
 
-public class Vol {
-
-    int numVol = 666;
-    String lieuDepart = "YUL";
-    String lieuArrive = "LOL";
-    //SimpleDateFormat date = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
-    Date aujourdhui = new Date();
-    SimpleDateFormat dateDepart = new SimpleDateFormat("17/04/2012 15:30:00");
-    SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
-    private Passager[] passagers;
-    private int nbPassagers;
-
-    public Vol(int taille) {
-        this.passagers = new Passager[taille];
-        this.nbPassagers = 0;        
-    }
+public class Main {
     
- public boolean ajouter(Passager passager) {
-        int i;
-        if (nbPassagers == 0) {
-            passagers[nbPassagers++] = passager; //is liste vide           
-        } else {
-            if (nbPassagers == passagers.length) {
-                agrandir(); // si pleine //!need doublecheck              
+static String numBill = "";
+static int numPass = 0;
+
+    public static void main(String[] args) throws IOException {
+        System.out.println("+----------------==[Bienvenue]==----------------+");
+        System.out.println("|   Travail pratique 2 - Compagnie Aérienne     |");
+        System.out.println("|   Par: Steve O'Bomsawin & Mathieu Gagnon      |");
+        System.out.println("+-----------------------------------------------+\n");
+
+        Vol vol = new Vol(120);
+        vol.ajouter(new Passager("Smith", "Joe", 13372341, "23A", false));
+        vol.ajouter(new Passager("Desbananes", "Yvan", 13382314, "10C", true));
+        vol.ajouter(new Passager("Desbalounes", "Yvan", 13393476, "4B", true));
+        vol.ajouter(new Passager("Charest", "Jean", 13371375, "5A", true));
+        vol.ajouter(new Passager("Harper", "Stefen", 13371313, "3F", true));
+        vol.ajouter(new Passager("Wing", "Boe", 13370025, "25B", false));
+        vol.ajouter(new Passager("Wing", "Tow", 15451337, "25A", false));
+        vol.ajouter(new Passager("Despoires", "Yvan", 87951338, "9C", true));
+        vol.ajouter(new Passager("Rienpentoute", "Yvan", 36413139, "21B", false));
+        vol.ajouter(new Passager("Mainmoites", "Yale", 13223713, "2A", true));
+        vol.ajouter(new Passager("Dlayeul", "Ypu", 13399913, "3E", true));
+        vol.ajouter(new Passager("Aupier", "Gemal", 13213700, "29F", false));
+        vol.ajouter(new Passager("Dider", "Gepu", 85463284, "18A", false));
+        vol.ajouter(new Passager("Maipartou", "Yan", 63278591, "6F", true));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 17685179, "27E", false));
+
+        int choix = -1;
+
+        do {
+
+
+
+            System.out.println("+----------------------------------==[Info du vol]==--------------------------------+");
+            System.out.println(vol.toString());
+            System.out.println("+-----------------------------------------------------------------------------------+");
+
+            System.out.println("+-------------------------------------==[MENU]==------------------------------------+");
+            System.out.println("|  [1] - Enregistrer un passager                                                    |");
+            System.out.println("|  [2] - Afficher l'ordre d'embarquement des passagers                              |");
+            System.out.println("|  [3] - Afficher la liste des passagers en fonction de leur nom et prénom          |");
+            System.out.println("|  [4] - Afficher la liste des passagers en fonction de leur position dans l'avion  |");
+            System.out.println("|  [5] - Quitter                                                                    |");
+            System.out.println("+-----------------------------------------------------------------------------------+");
+            System.out.println("[Faites votre choix et appuyez sur ENTER]");
+            choix = getInt();
+
+
+            switch (choix) {
+                case 1:
+
+                    System.out.println("Veuillez entrer le prénom :");
+                    String prenom = getString();
+                    System.out.println("Veuillez entrer le nom :");
+                    String nom = getString();
+                    
+                    do {
+                    System.out.println("Veuillez entrer le numéro de passport :");
+                    numPass = getInt();
+                    
+                  //   do {System.out.println("Ce passport existe déjà, essayez de nouveau:");}
+                  //  while ((vol.rechercher(numPass)) == false);
+
+                     } while ((vol.rechercher(numPass)) == true);
+                    
+                    do {
+                    System.out.println("Veuillez entrer le numéro de billet :");
+                        numBill = getString();
+
+                    } while ((!numBillCheck() == true) && (vol.rechercher2(numBill)) == true);
+                    
+                    int numClasse = 0;
+                    boolean classe = false;
+                    boolean isLegal = false;
+
+                    do {
+                        System.out.println("Veuillez entrer le numéro de la classe désirée :");
+                        System.out.println("1 - Affaire");
+                        System.out.println("2 - Économique");
+                        numClasse = getInt();
+                        if (numClasse == 1) {
+                            classe = true;
+                            isLegal = true;
+                        } else if (numClasse == 2) {
+                            classe = false;
+                            isLegal = true;
+                        } else {
+                            System.out.println("Choix invalide!");
+                            isLegal = false;
+                        }
+                    } while (isLegal == false);
+                    vol.ajouter(new Passager(nom, prenom, numPass, numBill, classe));
+                    break;
+
+                case 2:
+                    System.out.println(vol.toString2());
+            
+                    break;
+
+                case 3:
+                System.out.println(vol.fillPassagersTriNom());
+                    break;
+
+                case 4: {
+                System.out.println(vol.fillPassagersTriPlusMoins());
+                    break;
+                }
+
+                case 5:
+                    System.out.println("\nAu revoir!");
+                    break;
+
+                default:
+                    System.out.println("\nChoix invalide!  Veuillez recommencer.");
+                    break;
             }
-            //on cherche s'il n'existe pas un autre passeport du meme #            
-            for (i = 0; i < nbPassagers; i++) {
-                if (passagers[i].getPass() == passager.getPass()) {
+        } while (choix != 5);
+    }
+
+    public static String getString() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        return br.readLine();
+    }
+
+    public static int getInt() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        return Integer.parseInt(br.readLine());
+    }
+     public static boolean numBillCheck() { 
+    String s = new String();
+         int i=0;      
+         while(Character.isDigit(numBill.charAt(i))) { s += numBill.charAt(i); i++;}
+           if(Integer.parseInt(s) <= 30 && Character.getNumericValue(numBill.charAt(numBill.length()-1)) <=Character.getNumericValue('F') )
+           return true;
+           return false;
+                               
+       }
+         
+         public static boolean numPassCheck(Passager[] numPass) {
+        for (int i = 0; i < numPass.length; i++) {
+            for (int j = 0; j < numPass.length; j++) {
+                if (numPass[i].equals(numPass[j]) && i != j) {
                     return false;
                 }
             }
-           
-            //tri insersion
-            //La classe affaire et économique on étés séparer pour  simplifié
-            for (i= nbPassagers-1; i >= 0; i--) // i already set
-            {
-                //Classe affaire
-                //Conditions :  Priorité sur la classe économiques sans exeption
-                //      Priorité sur un siège plus petit.
-              
-                if(passager.isAffaire()){
-                    if ( !passagers[i].isAffaire() || passager.getRange() > passagers[i].getRange() )  
-                        passagers[i + 1] = passagers[i];
-                    else {
-                     //  System.out.println("Classe affaire " + passager+"\n");
-                        break;
-                    }                        
-                }
-                
-                //classe économique 
-                //condition : ne dois pas déclasser un 1ere classe,
-                //      Priorité sur un siège plus petit de la classe économique.
-                
-                else{
-                    if ((!passagers[i].isAffaire()) && (passager.getRange() > passagers[i].getRange()) )
-                        passagers[i + 1] = passagers[i];                        
-                    else{                            
-                    //    System.out.println("Classe économique : + passager "+ "\n" );
-                        break;
-                    }
-                }    
-            }
-            
-            passagers[i+1] = passager;
-            nbPassagers++;
-
         }
-     return true;
-    }
-
-    private void agrandir() {
-        Passager[] temp = new Passager[passagers.length * 2];
-
-        for (int i = 0; i < passagers.length; i++) {
-            temp[i] = passagers[i];
-        }
-
-        passagers = temp;
-    }
-
-    public String toString() {
-        String s = "Numéro du vol: " + numVol + "\nLieu de départ: " + lieuDepart + 
-                "\nLieu d'arrivée: " + lieuArrive + "\nDate de départ: " + dateDepart.format(aujourdhui) + 
-                "\nDate d'arrivée: " + dateArrive.format(aujourdhui) + "\n\nListe des passagers:";
-
-        for (int i = nbPassagers - 1; i >= 0; i--) {
-            s += "\n" + passagers[i];
-        }
-
-        return s;
-    }
-    
-    public String toString2() {
-        String s = "Ordre d'embarquement des passagers:\n";
-
-        for (int i = nbPassagers - 1; i >= 0; i--) {
-            s += "\n" + passagers[i];
-        }
-
-        return s;
-    }    
-
-
-    /* Tri shell */
-    public void trierParNom(Passagers[] passagers){
-    Passager temp;
-        int i, j;
-        int h = 1;
-        while (h <= nbPassagers / 3) {
-            h = h * 3 + 1; //(1,4,13,40,121)
-        }
-        while (h > 0) {
-            for (i = h; i < nbPassagers; i++) {
-                temp = passagers[i];
-                j = i;
-
-                while (j > h - 1 && passagers[j - h].getNameWeight() <= temp.getNameWeight()) {
-                    passagers[j] = passagers[j - h];
-                    j -= h;
-                }
-
-                passagers[j] = temp;
-            }
-
-            h = (h - 1) / 3;
-        }
-        
-    }
-
-
-    
+        return true;
+    }  
 }
