@@ -14,7 +14,7 @@ public class Vol {
     SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
     private Passager[] passagers;
     private Passager[] passagersTriNom;
-    private Passager[] passagersTriPlusMoins;
+    private Passager[] passagersTriRapide;
 
     public String fillPassagersTriNom() {
         passagersTriNom = new Passager[nbPassagers];
@@ -25,26 +25,25 @@ public class Vol {
 
         String s = "Liste des passagers selon leur nom et prénoms:\n";
 
-        for (int i = 0; i < nbPassagers-1; i++){
-        
-        //for (int i = nbPassagers - 1; i >= 0; i--) {
+        for (int i = 0; i < nbPassagers - 1; i++) {
             s += "\n" + passagersTriNom[i];
         }
 
         return s;
     }
 
-    public String fillPassagersTriPlusMoins() {
-        passagersTriPlusMoins = new Passager[nbPassagers];
+    public String fillrapide() {
+        passagersTriRapide = new Passager[nbPassagers];
         for (int j = 0; j < nbPassagers; j++) {
-            passagersTriPlusMoins[j] = passagers[j];
+            passagersTriRapide[j] = passagers[j];
         }
-        passagerTrierPlusMoins(passagersTriPlusMoins);
+        trierRapide(passagersTriRapide);
 
         String s = "Liste des passagers selon leur # de sièges:\n";
 
-        for (int i = nbPassagers - 1; i >= 0; i--) {
-            s += "\n" + passagersTriPlusMoins[i];
+        for (int i = nbPassagers -1 ; i >= 0; i--) {
+        //for (int i = 0; i < nbPassagers; i++) {
+            s += "\n" + passagersTriRapide[i];
         }
 
         return s;
@@ -106,21 +105,24 @@ public class Vol {
         return true;
     }
 
-    
     public boolean rechercher(int numPass) {
-        for (int i=0; i < nbPassagers; i++)
-            if (this.passagers[i].getPass() == numPass )
+        for (int i = 0; i < nbPassagers; i++) {
+            if (this.passagers[i].getPass() == numPass) {
                 return true;
+            }
+        }
         return false;
     }
-        public boolean rechercher2(String numBill) {
-        for (int i=0; i < nbPassagers; i++)
-            if (this.passagers[i].getNumBill().contains(numBill))
+
+    public boolean rechercher2(String numBill) {
+        for (int i = 0; i < nbPassagers; i++) {
+            if (this.passagers[i].getNumBill().contains(numBill)) {
                 return true;
+            }
+        }
         return false;
     }
-    
-    
+
     private void agrandir() {
         Passager[] temp = new Passager[passagers.length * 2];
 
@@ -179,51 +181,93 @@ public class Vol {
 
     }
 
-    //-- Tri fusion --
-    public void passagerTrierPlusMoins(Passager[] passagers) {
-        Passager[] workspace = new Passager[nbPassagers];
-        trierPlusMoinsRecursif(workspace, 0, nbPassagers - 1);
+    //-- Tri rapide --
+    public void trierRapide(Passager[] passagersTriRapide) {
+        trierPPMRecursif(0, nbPassagers - 1);
     }
 
-    public void trierPlusMoinsRecursif(Passager[] workspace, int inf, int sup) {
-        if (inf == sup) {
-            return;
-        } else {
-            int centre = (inf + sup) / 2;
-            trierPlusMoinsRecursif(workspace, inf, centre);
-            trierPlusMoinsRecursif(workspace, centre + 1, sup);
-            fusionner(workspace, inf, centre + 1, sup);
-        }
-    }
-
-    public void fusionner(Passager[] workspace, int ptrTabInf, int ptrTabSup, int sup) {
-        int j = 0;
-        int inf = ptrTabInf;
-        int centre = ptrTabSup - 1;
+    private void trierPPMRecursif(int inf, int sup) {
         int n = sup - inf + 1;
 
-        while (ptrTabInf <= centre && ptrTabSup <= sup) {
-            if (passagers[ptrTabInf].getRange() > passagers[ptrTabSup].getRange()) {
-                workspace[j++] = passagers[ptrTabInf++];
-            } else if (passagers[ptrTabInf].getRange() == passagers[ptrTabSup].getRange()) {
-                if (passagers[ptrTabInf].getSiegeW() > passagers[ptrTabSup].getSiegeW()) {
-                    workspace[j++] = passagers[ptrTabInf++];
-                } else {
-                    workspace[j++] = passagers[ptrTabSup++];
-                }
+        if (n <= 3) {
+            trierManuellement(inf, sup);
+        } else //partition plus large que 3
+        {
+            double mediane = medianeDeTrois(inf, sup);
+            int partition = partionner(inf, sup, mediane);
+            trierPPMRecursif(inf, partition - 1);
+            trierPPMRecursif(partition + 1, sup);
+        }
+
+    }
+
+    private int partionner(int inf, int sup, double pivot) {
+        int ptrInf = inf;
+        int ptrSup = sup - 1; //position du pivot
+
+        while (true) {
+            while (passagers[++ptrInf].getSiegeW() > pivot);
+            while (passagers[--ptrSup].getSiegeW() < pivot);
+
+            if (ptrInf >= ptrSup) // NE CHANGE PAS POUR L'ORDRE DÉCROISSANT
+            {
+                break;
+            } else {
+                permuter(ptrInf, ptrSup);
             }
         }
 
-        while (ptrTabInf <= centre) {
-            workspace[j++] = passagers[ptrTabInf++];
+        permuter(ptrInf, sup - 1); // restauration du pivot
+        return ptrInf;
+    }
+
+    private void trierManuellement(int inf, int sup) {
+        int n = sup - inf + 1;
+
+        if (n <= 1) {
+            return; //pas besoin de tri
+        }
+        if (n == 2) {   //on fait une permutation si nécessaire
+            if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(inf, sup);
+            }
+            return;
+        } else // n = 3
+        {
+            //-- tri des 3 données --
+            if (passagers[inf].getSiegeW() < passagers[sup - 1].getSiegeW()) {
+                permuter(inf, sup - 1);
+            }
+            if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(inf, sup);
+            }
+            if (passagers[sup - 1].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(sup - 1, sup);
+            }
+        }
+    }
+
+    private double medianeDeTrois(int inf, int sup) {
+        int centre = (inf + sup) / 2;
+
+        //-- tri des 3 données --
+        if (passagers[inf].getSiegeW() < passagers[centre].getSiegeW()) {
+            permuter(inf, centre);
+        }
+        if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+            permuter(inf, sup);
+        }
+        if (passagers[centre].getSiegeW() < passagers[sup].getSiegeW()) {
+            permuter(centre, sup);
         }
 
-        while (ptrTabSup <= sup) {
-            workspace[j++] = passagers[ptrTabSup++];
-        }
+        permuter(centre, sup - 1); //on met le pivot au bout - 1 (le bout est déjà trié)
+        return passagers[sup - 1].getSiegeW();
+    }
 
-        for (j = 0; j < n; j++) {
-            passagers[inf + j] = workspace[j];
-        }
+    private void permuter(int a, int b) {
+        Passager temp = passagers[a];
+        passagers[a] = passagers[b];
+        passagers[b] = temp;
     }
 }
