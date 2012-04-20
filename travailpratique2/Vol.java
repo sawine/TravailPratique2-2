@@ -15,6 +15,7 @@ public class Vol {
     private Passager[] passagers;
     private Passager[] passagersTriNom;
     private Passager[] passagersTriRapide;
+    private Passager[] workSpace;
 
     public String fillPassagersTriNom() {
         passagersTriNom = new Passager[nbPassagers];
@@ -270,4 +271,63 @@ public class Vol {
         passagers[a] = passagers[b];
         passagers[b] = temp;
     }
+public String getTriRange(){
+    String s = new String();
+     for (int i = nbPassagers -1 ; i >= 0; i--) {
+        //for (int i = 0; i < nbPassagers; i++) {
+            s += "\n" + workSpace[i];
+        }
+
+        return s;
 }
+     public void mergeSort()           // called by main()
+      {                              // provides workspace
+     workSpace = new Passager[nbPassagers];
+      recMergeSort(workSpace, 0, nbPassagers-1);
+      }
+   //-----------------------------------------------------------
+   private void recMergeSort(Passager[] workSpace, int lowerBound,
+                                               int upperBound)
+      {
+      if(lowerBound == upperBound)            // if range is 1,
+         return;                              // no use sorting
+      else
+         {                                    // find midpoint
+         int mid = (lowerBound+upperBound) / 2;
+                                              // sort low half
+         recMergeSort(workSpace, lowerBound, mid);
+                                              // sort high half
+         recMergeSort(workSpace, mid+1, upperBound);
+                                              // merge them
+         merge(workSpace, lowerBound, mid+1, upperBound);
+         }  // end else
+      }  // end recMergeSort()
+   //-----------------------------------------------------------
+   private void merge(Passager[] workSpace, int lowPtr,
+                           int highPtr, int upperBound)
+      {
+      int j = 0;                             // workspace index
+      int lowerBound = lowPtr;
+      int mid = highPtr-1;
+      int n = upperBound-lowerBound+1;       // # of items
+
+      while(lowPtr <= mid && highPtr <= upperBound)
+        
+          if(!passagers[lowPtr].posIsHeavier(passagers[highPtr]))
+          
+            workSpace[j++] = passagers[lowPtr++];
+         else
+            workSpace[j++] = passagers[highPtr++];
+
+      while(lowPtr <= mid)
+         workSpace[j++] = passagers[lowPtr++];
+
+      while(highPtr <= upperBound)
+         workSpace[j++] = passagers[highPtr++];
+
+      for(j=0; j<n; j++)
+         passagers[lowerBound+j] = workSpace[j];
+      }  // end merge()
+   //-----------------------------------------------------------
+   }  // end class DArray
+
