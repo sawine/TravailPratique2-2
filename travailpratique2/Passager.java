@@ -10,8 +10,7 @@ public class Passager {
     private char siege;             //#de siege (a to f
     private int nWeight;            //le poid du nom (pour le triage)
     private int range;
-    private int siegeW;
-    
+    private int siegeW;    
 
     public Passager(String nom, String prenom, int numPass, String numBill, boolean affaire) {
         this.nom = nom;
@@ -20,8 +19,7 @@ public class Passager {
         this.numBill = numBill;
         this.affaire = affaire;
         this.siegeW = Character.getNumericValue(numBill.charAt(numBill.length() - 1));
-        this.range =  getRange();
-        
+        this.range =  setRange();
     }
 
     public boolean isAffaire() {
@@ -32,20 +30,21 @@ public class Passager {
     public String getNumBill() {
         return numBill;
     }
-
-    public int getRange() {
-       if(!(this.range > 0)){
+private int setRange()
+    {
             String s = new String();
             int i = 0;
-
             while (Character.isDigit(numBill.charAt(i))) {
                 s += numBill.charAt(i);
                 i++;
             }
-            return Integer.parseInt(s);
-        }
-       else return range;
+            return Integer.parseInt(s);             
     }
+    
+
+    public int getRange() {
+        return range;
+}
 
     public int getSiegeW() {  // retourne le poid ASCII du numero de siege
         return siegeW;
@@ -82,7 +81,6 @@ public boolean posIsHeavier(Passager test){
             return false;
         }
     }
-
 
     public int getPass() {
         return numPass;
