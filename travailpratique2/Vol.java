@@ -1,94 +1,273 @@
 package TravailPratique2;
 
-public class Passager {
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
-    private String nom;
-    private String prenom;
-    private int numPass;            //passeport
-    private String numBill;         //#deticket
-    private boolean affaire;        //true si affaire
-    private char siege;             //#de siege (a to f
-    private int nWeight;            //le poid du nom (pour le triage)
-    private int range;
-    private int siegeW;
-    
+public class Vol {
 
-    public Passager(String nom, String prenom, int numPass, String numBill, boolean affaire) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.numPass = numPass;
-        this.numBill = numBill;
-        this.affaire = affaire;
-        this.siegeW = Character.getNumericValue(numBill.charAt(numBill.length() - 1));
-        this.range =  getRange();
-        
-    }
+    int numVol = 666;
+    String lieuDepart = "YUL";
+    String lieuArrive = "LOL";
+    //SimpleDateFormat date = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+    Date aujourdhui = new Date();
+    SimpleDateFormat dateDepart = new SimpleDateFormat("17/04/2012 15:30:00");
+    SimpleDateFormat dateArrive = new SimpleDateFormat("17/04/2012 17:30:00");
+    private Passager[] passagers;
+    private Passager[] passagersTriNom;
+    private Passager[] passagersTriRapide;
 
-    public boolean isAffaire() {
-        return affaire;
-    }
-    //test change
-
-    public String getNumBill() {
-        return numBill;
-    }
-
-    public int getRange() {
-       if(!(this.range > 0)){
-            String s = new String();
-            int i = 0;
-
-            while (Character.isDigit(numBill.charAt(i))) {
-                s += numBill.charAt(i);
-                i++;
-            }
-            return Integer.parseInt(s);
+    public String fillPassagersTriNom() {
+        passagersTriNom = new Passager[nbPassagers];
+        for (int j = 0; j < nbPassagers; j++) {
+            passagersTriNom[j] = passagers[j];
         }
-       else return range;
+        trierParNom(passagersTriNom);
+
+        String s = "Liste des passagers selon leur nom et prénoms:\n";
+
+        for (int i = 0; i < nbPassagers - 1; i++) {
+            s += "\n" + passagersTriNom[i];
+        }
+
+        return s;
     }
 
-    public int getSiegeW() {  // retourne le poid ASCII du numero de siege
-        return siegeW;
+    public String fillrapide() {
+        passagersTriRapide = new Passager[nbPassagers];
+        for (int j = 0; j < nbPassagers; j++) {
+            passagersTriRapide[j] = passagers[j];
+        }
+        trierRapide(passagersTriRapide);
+
+        String s = "Liste des passagers selon leur # de sièges:\n";
+
+        for (int i = nbPassagers -1 ; i >= 0; i--) {
+        //for (int i = 0; i < nbPassagers; i++) {
+            s += "\n" + passagersTriRapide[i];
+        }
+
+        return s;
+    }
+    private int nbPassagers;
+
+    public Vol(int taille) {
+        this.passagers = new Passager[taille];
+        this.nbPassagers = 0;
     }
 
-    public String getLastName() {
-        return nom;
-    }
-
-    public String getFirstName() {
-        return prenom;
-    }
-public boolean posIsHeavier(Passager test){
-    if(this.range == test.getRange()){
-        if(this.siegeW < test.getSiegeW())
-            return false;
-        else return true;
-    }
-    else if (this.range < test.getRange())
-        return false;
-    else return true;
-}
-    
-    public boolean isHeavier(Passager name) { //calcul le poid du nom selon un calcul
-        if (this.nom.compareTo(name.getLastName()) == 0) {
-            if (prenom.compareTo(name.getFirstName()) > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if (this.nom.compareTo(name.getLastName()) > 0) {
-            return true;
+    public boolean ajouter(Passager passager) {
+        int i;
+        if (nbPassagers == 0) {
+            passagers[nbPassagers++] = passager; //is liste vide
         } else {
-            return false;
+            if (nbPassagers == passagers.length) {
+                agrandir(); // si pleine //!need doublecheck
+            }
+            //on cherche s'il n'existe pas un autre passeport du meme #
+            for (i = 0; i < nbPassagers; i++) {
+                if (passagers[i].getPass() == passager.getPass()) {
+                    return false;
+                }
+            }
+
+            //tri insersion
+            //La classe affaire et économique on étés séparer pour  simplifié
+            for (i = nbPassagers - 1; i >= 0; i--) // i already set
+            {
+                //Classe affaire
+                //Conditions :  tasse tout les classe économiques sans exeption
+                //      tasse tout les plus petit de classe affaire
+
+                if (passager.isAffaire()) {
+                    if (!passagers[i].isAffaire() || passager.getRange() > passagers[i].getRange()) {
+                        passagers[i + 1] = passagers[i];
+                    } else {
+                        //  System.out.println("Classe affaire " + passager+"\n");
+                        break;
+                    }
+                } //classe économique
+                //condition : ne dois pas tassé un 1ere classe,
+                //      doit être plus grand que sont suivant
+                else {
+                    if ((!passagers[i].isAffaire()) && (passager.getRange() > passagers[i].getRange())) {
+                        passagers[i + 1] = passagers[i];
+                    } else {
+                        //    System.out.println("Classe économique : + passager "+ "\n" );
+                        break;
+                    }
+                }
+            }
+
+            passagers[i + 1] = passager;
+            nbPassagers++;
+
         }
+        return true;
     }
 
+    public boolean rechercher(int numPass) {
+        for (int i = 0; i < nbPassagers; i++) {
+            if (this.passagers[i].getPass() == numPass) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public int getPass() {
-        return numPass;
+    public boolean rechercher2(String numBill) {
+        for (int i = 0; i < nbPassagers; i++) {
+            if (this.passagers[i].getNumBill().contains(numBill)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void agrandir() {
+        Passager[] temp = new Passager[passagers.length * 2];
+
+        for (int i = 0; i < passagers.length; i++) {
+            temp[i] = passagers[i];
+        }
+
+        passagers = temp;
     }
 
     public String toString() {
-        return this.prenom + " " + this.nom + " " + this.numPass + " " + this.numBill + " " + this.affaire;
+        String s = "Numéro du vol: " + numVol + "\nLieu de départ: " + lieuDepart + "\nLieu d'arrivée: " + lieuArrive + "\nDate de départ: " + dateDepart.format(aujourdhui) + "\nDate d'arrivée: " + dateArrive.format(aujourdhui) + "\n\nListe des passagers:";
+
+        for (int i = nbPassagers - 1; i >= 0; i--) {
+            s += "\n" + passagers[i];
+        }
+
+        return s;
+    }
+
+    public String toString2() {
+        String s = "Ordre d'embarquement des passagers:\n";
+
+        for (int i = 0; i < nbPassagers - 1; i++) {
+            s += "\n" + passagers[i];
+        }
+
+        return s;
+    }
+
+    /*
+     * Tri shell
+     */
+    public void trierParNom(Passager[] passagers) {
+        Passager temp;
+        int i, j;
+        int h = 1;
+        while (h <= nbPassagers / 3) {
+            h = h * 3 + 1; //(1,4,13,40,121)
+        }
+        while (h > 0) {
+            for (i = h; i < nbPassagers; i++) {
+                temp = passagers[i];
+                j = i;
+
+                while (j > h - 1 && passagers[j - h].isHeavier(temp)) {
+                    passagers[j] = passagers[j - h];
+                    j -= h;
+                }
+
+                passagers[j] = temp;
+            }
+
+            h = (h - 1) / 3;
+        }
+
+    }
+
+    //-- Tri rapide --
+    public void trierRapide(Passager[] passagersTriRapide) {
+        trierPPMRecursif(0, nbPassagers - 1);
+    }
+
+    private void trierPPMRecursif(int inf, int sup) {
+        int n = sup - inf + 1;
+
+        if (n <= 3) {
+            trierManuellement(inf, sup);
+        } else //partition plus large que 3
+        {
+            double mediane = medianeDeTrois(inf, sup);
+            int partition = partionner(inf, sup, mediane);
+            trierPPMRecursif(inf, partition - 1);
+            trierPPMRecursif(partition + 1, sup);
+        }
+
+    }
+
+    private int partionner(int inf, int sup, double pivot) {
+        int ptrInf = inf;
+        int ptrSup = sup - 1; //position du pivot
+
+        while (true) {
+            while (passagers[++ptrInf].getSiegeW() > pivot);
+            while (passagers[--ptrSup].getSiegeW() < pivot);
+
+            if (ptrInf >= ptrSup) // NE CHANGE PAS POUR L'ORDRE DÉCROISSANT
+            {
+                break;
+            } else {
+                permuter(ptrInf, ptrSup);
+            }
+        }
+
+        permuter(ptrInf, sup - 1); // restauration du pivot
+        return ptrInf;
+    }
+
+    private void trierManuellement(int inf, int sup) {
+        int n = sup - inf + 1;
+
+        if (n <= 1) {
+            return; //pas besoin de tri
+        }
+        if (n == 2) {   //on fait une permutation si nécessaire
+            if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(inf, sup);
+            }
+            return;
+        } else // n = 3
+        {
+            //-- tri des 3 données --
+            if (passagers[inf].getSiegeW() < passagers[sup - 1].getSiegeW()) {
+                permuter(inf, sup - 1);
+            }
+            if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(inf, sup);
+            }
+            if (passagers[sup - 1].getSiegeW() < passagers[sup].getSiegeW()) {
+                permuter(sup - 1, sup);
+            }
+        }
+    }
+
+    private double medianeDeTrois(int inf, int sup) {
+        int centre = (inf + sup) / 2;
+
+        //-- tri des 3 données --
+        if (passagers[inf].getSiegeW() < passagers[centre].getSiegeW()) {
+            permuter(inf, centre);
+        }
+        if (passagers[inf].getSiegeW() < passagers[sup].getSiegeW()) {
+            permuter(inf, sup);
+        }
+        if (passagers[centre].getSiegeW() < passagers[sup].getSiegeW()) {
+            permuter(centre, sup);
+        }
+
+        permuter(centre, sup - 1); //on met le pivot au bout - 1 (le bout est déjà trié)
+        return passagers[sup - 1].getSiegeW();
+    }
+
+    private void permuter(int a, int b) {
+        Passager temp = passagers[a];
+        passagers[a] = passagers[b];
+        passagers[b] = temp;
     }
 }
