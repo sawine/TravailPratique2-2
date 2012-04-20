@@ -3,7 +3,7 @@ package TravailPratique2;
 import java.io.*;
 
 public class Main {
-    
+
 static String numBill = "";
 static int numPass = 0;
 
@@ -28,7 +28,14 @@ static int numPass = 0;
         vol.ajouter(new Passager("Aupier", "Gemal", 13213700, "29F", false));
         vol.ajouter(new Passager("Dider", "Gepu", 85463284, "18A", false));
         vol.ajouter(new Passager("Maipartou", "Yan", 63278591, "6F", true));
-        vol.ajouter(new Passager("Mainulpar", "Yan", 17685179, "27E", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 176785179, "26c", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 176575179, "26a", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 1764685179, "27a", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 17655859, "27d", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 1676658517, "2b", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 176865179, "27f", false));
+        vol.ajouter(new Passager("Mainulpar", "Yan", 1768655179, "27E", false));
+
 
         int choix = -1;
 
@@ -58,22 +65,22 @@ static int numPass = 0;
                     String prenom = getString();
                     System.out.println("Veuillez entrer le nom :");
                     String nom = getString();
-                    
+
                     do {
                     System.out.println("Veuillez entrer le numéro de passport :");
                     numPass = getInt();
-                    
+
                   //   do {System.out.println("Ce passport existe déjà, essayez de nouveau:");}
                   //  while ((vol.rechercher(numPass)) == false);
 
                      } while ((vol.rechercher(numPass)) == true);
-                    
+
                     do {
                     System.out.println("Veuillez entrer le numéro de billet :");
                         numBill = getString();
 
                     } while ((!numBillCheck() == true) || (vol.rechercher2(numBill.toUpperCase())) == true);
-                    
+
                     int numClasse = 0;
                     boolean classe = false;
                     boolean isLegal = false;
@@ -99,7 +106,7 @@ static int numPass = 0;
 
                 case 2:
                     System.out.println(vol.toString2());
-            
+
                     break;
 
                 case 3:
@@ -107,7 +114,8 @@ static int numPass = 0;
                     break;
 
                 case 4: {
-                System.out.println(vol.fillrapide());
+                    vol.mergeSort();
+                System.out.println(vol.getTriRange());
                     break;
                 }
 
@@ -131,16 +139,16 @@ static int numPass = 0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         return Integer.parseInt(br.readLine());
     }
-     public static boolean numBillCheck() { 
+     public static boolean numBillCheck() {
     String s = new String();
-         int i=0;      
+         int i=0;
          while(Character.isDigit(numBill.charAt(i))) { s += numBill.charAt(i); i++;}
            if(Integer.parseInt(s) <= 30 && Character.getNumericValue(numBill.charAt(numBill.length()-1)) <=Character.getNumericValue('F') )
            return true;
            return false;
-                               
+
        }
-         
+
          public static boolean numPassCheck(Passager[] numPass) {
         for (int i = 0; i < numPass.length; i++) {
             for (int j = 0; j < numPass.length; j++) {
@@ -150,5 +158,5 @@ static int numPass = 0;
             }
         }
         return true;
-    }  
+    }
 }
